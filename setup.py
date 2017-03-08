@@ -19,11 +19,12 @@ setup(
     version=osxlaunch.get_version(),
     packages=['osxlaunch'],
     license='BSD License',
-    description='Utility to working with OSX launchd environment variables.',
+    description='Utility for working with OSX launchd environment variables.',
     long_description=README,
     url='https://github.com/zzzirk/osxlaunch',
     author='Louis Zirkel III',
     author_email='zzzirk@gmail.com',
+    keywords="osx macos plist launchd launchctl environment environ",
 
     entry_points={
         'console_scripts': [
