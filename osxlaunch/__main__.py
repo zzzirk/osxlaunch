@@ -1,5 +1,11 @@
 """
 Generate a macOS property list file for environment variables.
+
+Should be run with the names of one or more environment variables to include
+in the resulting plist file.  If no filename argument is provided via the
+command line the resulting plist file is output to the terminal.  If a
+filename is provided via the command line no output to the terminal is
+performed unless the --verbose flag is also provided.
 """
 
 import argparse
@@ -19,7 +25,7 @@ def genplist(envvars):
             launchctl.append(ev.upper())
             launchctl.append(os.environ[ev.upper()])
 
-    return dict(Label="setenv.startup", ProgramArgument=launchctl,
+    return dict(Label="setenv.startup", ProgramArguments=launchctl,
                 RunAtLoad=True, ServiceIPC=False)
 
 
@@ -27,6 +33,7 @@ def parse_args():
     "Parse command line arguments."
     parser = argparse.ArgumentParser()
     parser.add_argument("--filename", default=None)
+    parser.add_argument("--verbose", "-v", action="store_true", default=False)
     parser.add_argument("envvar", nargs="+")
     return parser.parse_args()
 
@@ -37,8 +44,9 @@ def main():
 
     plist = genplist(args.envvar)
     if args.filename is not None:
-        plistlib.writePlist(plist, args.filename)
-    print(plistlib.writePlistToString(plist))
+        plistlib.writePlist(plist, os.path.expanduser(args.filename))
+    if args.verbose or args.filename is None:
+        print(plistlib.writePlistToString(plist))
 
 
 if __name__ == '__main__':
