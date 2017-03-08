@@ -22,9 +22,14 @@ setup(
     description='Utility to working with OSX launchd environment variables.',
     long_description=README,
     url='https://github.com/zzzirk/osxlaunch',
-
     author='Louis Zirkel III',
     author_email='zzzirk@gmail.com',
+
+    entry_points={
+        'console_scripts': [
+            'osxlaunch=osxlaunch.__main__:main',
+        ],
+    },
 
     classifiers=[
         'Development Status :: 3 - Alpha',
